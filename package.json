@@ -1,0 +1,33 @@
+{
+  "name": "karma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "dependencies": {
+    "concurrently": "^4.0.1",
+    "http-server": "^0.11.1",
+    "jasmine-core": "^2.8.0",
+    "jasmine-reporters": "^2.3.2",
+    "karma": "^1.7.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-jsdom-launcher": "^2.0.0",
+    "karma-junit-reporter": "^1.2.0",
+    "xml-js": "^1.6.2"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/karma start",
+    "start": "http-server -a 0.0.0.0 -p 8000 -c-1 ./app",
+    "ci": "start-server-and-test http://0.0.0.0:8000"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "karma-coverage-istanbul-reporter": "^2.0.5",
+    "karma-coverage": "^1.1.2"
+  }
+}

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Openbanking</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="scripts/controllers/main.js"></script>
+  <script src="scripts/factory/apiFac.js"></script>
+</head>
+
+<body>
+
+<div ng-app="myApp">
+  <div ng-controller="MainController">
+   <div id="mySidebar" class="sidebar">
+        <a id="close-nav" href="javascript:void(0)" class="closebtn" ng-click="closeNav()">×</a>
+        <a id="transaction-click" ng-click="transactionclick()">Transactions</a>
+        <a id="benificiary-click" ng-click="aggregationclick()">Account Aggregation</a>
+        
+    </div>
+    <div id="main">
+        <button id="openbtn-id" class="openbtn" ng-click="firstClick()" style="margin-left:100px;">☰ Digital Open Banking </button>
+        <br>
+        <br>
+        <!--box-grid style-->
+        <div id="account-container" ng-if="showtransaction && accountFromB1" class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div id="toggle-bank1" class="card" ng-click="toggleBank1()" style="width: 18rem;margin-left:20px;">
+                        <div class="card-body">
+                <h5><font color="STEELBLUE">{{accountFromB1.bankName}}</font></h5>
+                            <h5>Account# {{accountFromB1.accountId}}</h5>
+                            <p><font color="STEELBLUE">{{accountFromB1.accountType}}</font></p>
+                            <hr>
+                            <p class="card-text"><b>BALANCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{accountFromB1.currency}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{accountFromB1.balance}}</b>
+                            </p>
+                          <button type="button" class="btn btn-info btn-sm" style="margin-left:50px;">Transaction Details</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mr-2"></div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col-sm-3">
+                    <div id="toggle-bank2" class="card" ng-click="toggleBank2()" style="width: 19rem;margin-left:20px;">
+
+                        <div class="card-body">
+              <h5><font color="STEELBLUE">{{accountFromB2.bankName}}</font></h5>
+              <h5>Account# {{accountFromB2.accountId}}</h5>
+                            <p><font color="STEELBLUE">{{accountFromB2.accountType}}</font></p>
+                            <hr>
+              <p class="card-text"><b>BALANCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                {{accountFromB2.currency}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{accountFromB2.balance}}</b>
+                            </p>
+                             <button type="button" class="btn btn-info btn-sm" style="margin-left:50px;">Transaction Details</button> 
+                        </div>
+                    </div>
+                </div>
+                <div class="mr-2"></div>
+                <div class="mr-2"></div>
+            </div>
+        </div>
+        <!--end card-grid-->
+
+        <br>
+        <br>
+        <div class="container">
+            <div class="row">
+
+                <div id="bank1-transactions" ng-if="show_bank1_dialog">
+                    <h5><b>Recent Transactions</b></h5>
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <th>Transaction Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="trans in transactionArrayFromB1">
+                                <td align="centre">{{trans.date}}</td>
+                                <td align="right">{{trans.amount}}</td>
+                                <td align="centre">{{trans.type}}</td>
+                                <td align="centre">{{trans.source}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="bank2-transactions" ng-if="show_bank2_dialog">
+                    <h5><b>Recent Transactions</b></h5>
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <th>Transaction Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="trans in transactionArrayFromB2">
+                                <td>{{trans.date}}</td>
+                                <td>{{trans.amount}}</td>
+                                <td>{{trans.type}}</td>
+                                <td>{{trans.source}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+        <div id="show-aggregation" ng-if="showAggregation && accountFromB1">
+                <div class="col-sm-3">
+                    <div id="toggle-allbank" class="card" ng-click="toggleAllBank()" style="width: 18rem;margin-left:20px;">
+
+                        <div id="card3" class="card-body border border-info">
+
+                            <br>
+                            <p><font color="STEELBLUE">Aggregated Details from All banks</font></p>
+                            <hr>
+                            <p class="card-text"><b>BALANCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               <input type="hidden" id="bank1balance" name="bank1balance" value="{{accountFromB1.balance}}">
+                            <input type="hidden" id="bank2balance" name="bank2balance" value="{{accountFromB2.balance}}">
+       
+                            {{accountFromB2.currency}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;345157</b>
+                            </p>
+                <button type="button" class="btn btn-info btn-sm" style="margin-left:50px;">Aggregated   Details</button> 
+                           
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="show-agg" ng-if="show_agg_dialog">
+            <h5><b>Recent Transactions</b></h5>
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Transaction Type</th>
+                        <th>Bank Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="trans in transactionArrayFromB1">
+                        <td>{{trans.date}}</td>
+                        <td>{{trans.amount}}</td>
+                        <td>{{trans.type}}</td>
+                        <td>{{trans.source}}</td>
+                        <td>{{trans.bank}}</td>
+                    </tr>
+                    <tr ng-repeat="trans in transactionArrayFromB2">
+                        <td>{{trans.date}}</td>
+                        <td>{{trans.amount}}</td>
+                        <td>{{trans.type}}</td>
+                        <td>{{trans.source}}</td>
+                        <td>{{trans.bank}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            </div>
+        </div>
+
+        <!--footer-->
+        <div class="footer">
+            <p>@Copyright-Open Banking Online</p>
+        </div>
+
+        <div class="content">
+            <br>
+            <br>
+        </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

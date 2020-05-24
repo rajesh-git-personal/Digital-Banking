@@ -1,0 +1,16 @@
+[
+  {
+    "beneficiaryId": "1",
+    "reference": "abc124",
+    "beneficiaryName": "Phil Jackson",
+    "beneficiaryAccountId": "003571468146120",
+    "bank": "The Ferengi Commerce Bank"
+  },
+  {
+    "beneficiaryId": "2",
+    "reference": "apv857",
+    "beneficiaryName": "June Jackson",
+    "beneficiaryAccountId": "003547091751480",
+    "bank": "The Ferengi Commerce Bank"
+  }
+]

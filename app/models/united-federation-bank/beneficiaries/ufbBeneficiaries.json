@@ -1,0 +1,16 @@
+[
+  {
+    "beneficiaryId": "1",
+    "reference": "tyz124",
+    "beneficiaryName": "Phil Coulson",
+    "beneficiaryAccountId": "00354789146120",
+    "bank": "United Federation Bank"
+  },
+  {
+    "beneficiaryId": "2",
+    "reference": "tyz857",
+    "beneficiaryName": "June Coulson",
+    "beneficiaryAccountId": "00354709146120",
+    "bank": "United Federation Bank"
+  }
+]
